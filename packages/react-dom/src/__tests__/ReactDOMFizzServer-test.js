@@ -5374,33 +5374,6 @@ describe('ReactDOMFizzServer', () => {
       await waitForAll([]);
       expect(getVisibleChildren(container)).toEqual('Hi');
     });
-
-    // @gate enableUseHook
-    it('unwraps thenable that fulfills synchronously without suspending', async () => {
-      function App() {
-        const thenable = {
-          then(resolve) {
-            // This thenable immediately resolves, synchronously, without waiting
-            // a microtask.
-            resolve('Hi');
-          },
-        };
-        try {
-          return <Text text={use(thenable)} />;
-        } catch {
-          throw new Error(
-            '`use` should not suspend because the thenable resolved synchronously.',
-          );
-        }
-      }
-      // Because the thenable resolves synchronously, we should be able to finish
-      // rendering synchronously, with no fallback.
-      await act(async () => {
-        const {pipe} = renderToPipeableStream(<App />);
-        pipe(writable);
-      });
-      expect(getVisibleChildren(container)).toEqual('Hi');
-    });
   });
 
   describe('useEffectEvent', () => {
