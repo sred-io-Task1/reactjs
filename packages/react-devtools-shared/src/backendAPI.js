@@ -222,6 +222,7 @@ export function convertInspectedElementBackendToFrontend(
     props,
     rendererPackageName,
     rendererVersion,
+    ref,
     rootType,
     state,
     key,
@@ -268,6 +269,7 @@ export function convertInspectedElementBackendToFrontend(
     hooks: hydrateHelper(hooks),
     props: hydrateHelper(props),
     state: hydrateHelper(state),
+    ref,
     errors,
     warnings,
   };
