@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
@@ -30,7 +31,7 @@ jobs:
         with:
           path: "**/node_modules"
           key: shared-lint-node_modules-${{ runner.arch }}-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
+      - run: yarn
       - run: yarn prettier-check
 
   eslint:
@@ -38,6 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
@@ -48,7 +50,7 @@ jobs:
         with:
           path: "**/node_modules"
           key: shared-lint-node_modules-${{ runner.arch }}-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
+      - run: yarn
       - run: node ./scripts/tasks/eslint
 
   check_license:
@@ -56,6 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
@@ -66,7 +69,7 @@ jobs:
         with:
           path: "**/node_modules"
           key: shared-lint-node_modules-${{ runner.arch }}-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
+      - run: yarn
       - run: ./scripts/ci/check_license.sh
 
   test_print_warnings:
@@ -74,6 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
@@ -84,5 +88,5 @@ jobs:
         with:
           path: "**/node_modules"
           key: shared-lint-node_modules-${{ runner.arch }}-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn install --frozen-lockfile
+      - run: yarn
       - run: ./scripts/ci/test_print_warnings.sh
